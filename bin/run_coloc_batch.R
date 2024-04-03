@@ -33,16 +33,17 @@ opt <- optparse::parse_args(OptionParser(option_list=option_list))
 
 #Deubgging
 if(FALSE){
+  setwd(dir="/media/llin/BIONAS/home/projects/tb_sequel/analyses/colocalisation")
   opt = list(
-    gwas_sumstats = "ebi-a-GCST004133-af.GRCh38.sorted.vcf.gz",
-    gwas_id = "ebi-a-GCST004133",
-    qtl_sumstats = "Alasoo_2018.macrophage_naive_txrev.nominal.sorted.tsv.gz",
-    qtl_subset ="Alasoo_2018.macrophage_naive_txrev",
-    lead_pairs = "Alasoo_2018.macrophage_naive_txrev.leadpairs.tsv",
+    gwas_sumstats = "results/GRCh38_conv/LC_GWAS_subset.GRCh38.sorted.vcf.gz",
+    gwas_id = "LC-ebi-a-GCST004627",
+    qtl_sumstats = "testdata/BLUEPRINT_PE.T-cell_ge.nominal.sorted.tsv.gz",
+    qtl_subset ="BLUEPRINT_PE.T-cell_ge",
+    lead_pairs = "testdata/BLUEPRINT_PE.T-cell_ge.permuted.txt.gz",
     window_coloc = 200000,
-    chunk = "4 10",
-    output_prefix = "ebi-a-GCST002318_Alasoo_2018.macrophage_naive_tx_4_10.tsv",
-    outdir = "./coloc_results/")
+    chunk = "1 1",
+    output_prefix = "LC-ebi-a-GCST004627_BLUEPRINT_PE.T-cell_ge_1_1.tsv",
+    outdir = ".")
 }
 
 gwas_sumstats = opt$gwas_sumstats

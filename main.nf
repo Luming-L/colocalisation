@@ -38,7 +38,9 @@ process lift_to_GRCh38{
     tag "${gwas_id}"
     //storeDir "/gpfs/hpc/projects/eQTLCatalogue/coloc/GRCh38_conv_GWAS_15Sept2020"
     publishDir "${params.outdir}/GRCh38_conv/", mode: 'copy'
-    container 'quay.io/eqtlcatalogue/genimpute:v20.06.1'
+    // container 'quay.io/eqtlcatalogue/genimpute:v20.06.1'
+    container 'singularity_img/quay.io-eqtlcatalogue-genimpute-v20.06.1.img'
+    containerOptions '--bind /media/llin/BIONAS/home'
 
     input:
     tuple val(gwas_id), file(gwas_vcf) from gwas_vcf_ch
@@ -58,7 +60,9 @@ process tabix_index_gwas{
     tag "${gwas_id}"
     //storeDir "/gpfs/hpc/projects/eQTLCatalogue/coloc/GRCh38_conv_GWAS_15Sept2020"
     publishDir "${params.outdir}/GRCh38_conv/", mode: 'copy'
-    container = 'quay.io/eqtlcatalogue/qtlmap:v20.05.1'
+    //container = 'quay.io/eqtlcatalogue/qtlmap:v20.05.1'
+    container 'singularity_img/quay.io-eqtlcatalogue-genimpute-v20.06.1.img'
+    containerOptions '--bind /media/llin/BIONAS/home'
 
     input:
     tuple val(gwas_id), file(vcf_GRCh38) from tabix_index_ch
@@ -105,6 +109,7 @@ process run_coloc{
     tag "${gwas_id}_${qtl_subset}"
     // publishDir "${params.outdir}/coloc_results_batch/", mode: 'copy'
     container 'quay.io/eqtlcatalogue/colocalisation:v21.01.1'
+    containerOptions '--bind /media/llin/BIONAS/home'
 
     input:
     each batch_index from 1..params.n_batches
@@ -116,7 +121,8 @@ process run_coloc{
 
     script:
     """
-    Rscript $baseDir/bin/run_coloc_batch.R \\
+    Rscript \\
+        $baseDir/bin/run_coloc_batch.R \\
         --gwas_sumstats $gwas_sumstats \\
         --gwas_id $gwas_id \\
         --qtl_sumstats $eqtl_ss \\
